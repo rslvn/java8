@@ -5,6 +5,8 @@ import org.junit.Test;
 
 import static com.example.java8.function.custom.CustomFunctions.execute;
 
+import com.example.java8.model.SampleContext;
+
 @Slf4j
 public class CustomFunctionsTest {
 
@@ -12,7 +14,7 @@ public class CustomFunctionsTest {
 
     @Test
     public void testNoBeforeAfterFunc() {
-        FunctionContext context = FunctionContext.builder().build();
+        SampleContext context = SampleContext.builder().build();
         CustomFunctions.func1
                 .andThen(CustomFunctions.func2)
                 .andThen(CustomFunctions.func3)
@@ -25,7 +27,7 @@ public class CustomFunctionsTest {
 
     @Test
     public void testBeforeAfterFunc() {
-        FunctionContext context = FunctionContext.builder().build();
+        SampleContext context = SampleContext.builder().build();
         execute(CustomFunctions.func1)
                 .andThen(execute(CustomFunctions.func2))
                 .andThen(execute(CustomFunctions.func3))
@@ -38,7 +40,7 @@ public class CustomFunctionsTest {
 
     @Test(expected = RuntimeException.class)
     public void testBeforeAfterFuncStatusFailed() {
-        FunctionContext context = FunctionContext.builder().build();
+        SampleContext context = SampleContext.builder().build();
 
         execute(CustomFunctions.func1)
                 .andThen(execute(CustomFunctions.func2))
@@ -52,7 +54,7 @@ public class CustomFunctionsTest {
 
     @Test(expected = RuntimeException.class)
     public void testBeforeAfterFuncException() {
-        FunctionContext context = FunctionContext.builder().build();
+        SampleContext context = SampleContext.builder().build();
 
         execute(CustomFunctions.func1)
                 .andThen(execute(CustomFunctions.func2))

@@ -1,13 +1,13 @@
-package com.example.java8.function.custom;
+package com.example.java8.model;
 
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Builder
-public class FunctionContext {
+public class SampleContext {
     private String name;
     private long id;
     private Long previousFuctionId;
-    private CustomFunctions.ResultStatus resultStatus;
+    private ResultStatus resultStatus;
 }

@@ -2,89 +2,68 @@ package com.example.java8.function.custom;
 
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.function.Consumer;
 import java.util.function.Function;
+
+import com.example.java8.consumer.CustomConsumers;
+import com.example.java8.model.ResultStatus;
+import com.example.java8.model.SampleContext;
 
 @Slf4j
 public class CustomFunctions {
+    private CustomFunctions() {
+        // for sonar
+    }
 
     private static final String LOG_TEXT = "{} executed";
 
-    private static Consumer<FunctionContext> seperator = functionContext -> {
-        log.info("=========================");
+    private static Function<SampleContext, SampleContext> beforeFunc = sampleContext -> {
+        CustomConsumers.before.accept(sampleContext);
+        return sampleContext;
     };
 
-    private static Consumer<FunctionContext> setOrderId = functionContext -> {
-        log.info(LOG_TEXT, "setOrderId");
-        functionContext.setId(functionContext.getId() + 1);
+    private static Function<SampleContext, SampleContext> afterFunc = sampleContext -> {
+        CustomConsumers.after.accept(sampleContext);
+        return sampleContext;
     };
 
-    private static Consumer<FunctionContext> checkStatus = functionContext -> {
-        log.info(LOG_TEXT, "checkStatus");
-        if (ResultStatus.FAIL.equals(functionContext.getResultStatus())) {
-            throw new RuntimeException("Status Failed");
-        }
-    };
-
-    private static Function<FunctionContext, FunctionContext> beforeFunc = functionContext -> {
-        seperator.accept(functionContext);
-        setOrderId.accept(functionContext);
-        return functionContext;
-    };
-
-    private static Function<FunctionContext, FunctionContext> afterFunc = functionContext -> {
-        checkStatus.accept(functionContext);
-        return functionContext;
-    };
-
-    static Function<FunctionContext, FunctionContext> execute(Function<FunctionContext, FunctionContext> function) {
+    static Function<SampleContext, SampleContext> execute(Function<SampleContext, SampleContext> function) {
         return beforeFunc.andThen(function).andThen(afterFunc);
     }
 
-    static Function<FunctionContext, FunctionContext> func1 = functionContext -> {
-        log.info(LOG_TEXT, "func1");
-        functionContext.setResultStatus(ResultStatus.SUCCESS);
-        return functionContext;
+    static Function<SampleContext, SampleContext> func1 = sampleContext -> {
+        CustomConsumers.consumer1.accept(sampleContext);
+        return sampleContext;
     };
 
-    static Function<FunctionContext, FunctionContext> func2 = functionContext -> {
-        log.info(LOG_TEXT, "func2");
-        functionContext.setResultStatus(ResultStatus.SUCCESS);
-        return functionContext;
+    static Function<SampleContext, SampleContext> func2 = sampleContext -> {
+        CustomConsumers.consumer2.accept(sampleContext);
+        return sampleContext;
     };
 
-    static Function<FunctionContext, FunctionContext> func3 = functionContext -> {
-        log.info(LOG_TEXT, "func2");
-        functionContext.setResultStatus(ResultStatus.SUCCESS);
-        return functionContext;
+    static Function<SampleContext, SampleContext> func3 = sampleContext -> {
+        CustomConsumers.consumer3.accept(sampleContext);
+        return sampleContext;
     };
 
-    static Function<FunctionContext, FunctionContext> func4 = functionContext -> {
-        log.info(LOG_TEXT, "func4");
-        functionContext.setResultStatus(ResultStatus.SUCCESS);
-        return functionContext;
+    static Function<SampleContext, SampleContext> func4 = sampleContext -> {
+        CustomConsumers.consumer4.accept(sampleContext);
+        return sampleContext;
     };
 
-    static Function<FunctionContext, FunctionContext> func5 = CustomFunctions::execute5;
+    static Function<SampleContext, SampleContext> func5 = CustomFunctions::execute5;
 
-    static private FunctionContext execute5(FunctionContext functionContext) {
-        log.info(LOG_TEXT, "func5");
-        functionContext.setResultStatus(ResultStatus.SUCCESS);
-        return functionContext;
+    private static SampleContext execute5(SampleContext sampleContext) {
+        CustomConsumers.consumer5.accept(sampleContext);
+        return sampleContext;
     }
 
-    static Function<FunctionContext, FunctionContext> funcSetFail = functionContext -> {
-        log.info(LOG_TEXT, "funcSetFail");
-        functionContext.setResultStatus(ResultStatus.FAIL);
-        return functionContext;
+    static Function<SampleContext, SampleContext> funcSetFail = sampleContext -> {
+        CustomConsumers.consumerSetFail.accept(sampleContext);
+        return sampleContext;
     };
 
-    static Function<FunctionContext, FunctionContext> funcThrowException = functionContext -> {
-        log.info(LOG_TEXT, "funcThrowException");
-        throw new RuntimeException("Dummy Exception");
+    static Function<SampleContext, SampleContext> funcThrowException = sampleContext -> {
+        CustomConsumers.consumerThrowException.accept(sampleContext);
+        return sampleContext;
     };
-
-    public enum ResultStatus {
-        SUCCESS, FAIL
-    }
 }
