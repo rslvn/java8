@@ -2,6 +2,7 @@ package com.example.java8.function;
 
 import java.util.function.Function;
 
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.ArrayUtils;
 
 import lombok.extern.slf4j.Slf4j;
@@ -71,6 +72,20 @@ public class PrimitiveFunctions {
         Function function = functions[0];
         for (int i = 1; i < functions.length; i++) {
             function = function.compose(functions[i]);
+        }
+
+        return (V) function.apply(t);
+    }
+
+    public static <T, V> V andThenChain(T t, Function<T, V>... functions) {
+
+        if (ArrayUtils.isEmpty(functions)) {
+            return null;
+        }
+
+        Function function = functions[0];
+        for (int i = 1; i < functions.length; i++) {
+            function = function.andThen(functions[i]);
         }
 
         return (V) function.apply(t);

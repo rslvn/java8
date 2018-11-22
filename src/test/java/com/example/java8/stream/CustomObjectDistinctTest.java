@@ -72,7 +72,7 @@ public class CustomObjectDistinctTest {
 
         log.info(LOG_FORMAT_UNIQ_LIST, uniques);
 
-        Assert.assertFalse(ASSERT_MSG_NOT_BE_EXIST, uniques.contains(hashAndEqualsObject2));
+        Assert.assertEquals("Size mismatched",2, uniques.size());
         Assert.assertEquals(ASSERT_MSG_ITEM_NOT_MATCHED, uniques.get(0), hashAndEqualsObject1);
         Assert.assertEquals(ASSERT_MSG_ITEM_NOT_MATCHED, uniques.get(1), hashAndEqualsObject3);
     }
@@ -87,7 +87,7 @@ public class CustomObjectDistinctTest {
 
         log.info(LOG_FORMAT_UNIQ_LIST, list);
 
-        Assert.assertFalse(ASSERT_MSG_NOT_BE_EXIST, list.contains(noHashAndEqualsObject1));
+        Assert.assertFalse(ASSERT_MSG_NOT_BE_EXIST, list.contains(noHashAndEqualsObject2));
         Assert.assertEquals(ASSERT_MSG_ITEM_NOT_MATCHED, list.get(0), noHashAndEqualsObject1);
         Assert.assertEquals(ASSERT_MSG_ITEM_NOT_MATCHED, list.get(1), noHashAndEqualsObject3);
     }

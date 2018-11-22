@@ -72,10 +72,16 @@ public class PrimitiveFunctionsTest {
     }
 
 
-
     @Test
     public void testComposeLong() {
         long result = PrimitiveFunctions.exponentiationLong.compose(PrimitiveFunctions.exponentiationLong).apply(2L);
+        Assert.assertEquals(MESSAGE_MULT_RESULT, 16, result);
+    }
+
+
+    @Test
+    public void testAndThenLong() {
+        long result = PrimitiveFunctions.exponentiationLong.andThen(PrimitiveFunctions.exponentiationLong).apply(2L);
         Assert.assertEquals(MESSAGE_MULT_RESULT, 16, result);
     }
 
@@ -96,6 +102,21 @@ public class PrimitiveFunctionsTest {
 
 
     @Test
+    public void testAndThenLong2() {
+        // compose format
+        long result = PrimitiveFunctions.exponentiationLong.andThen(PrimitiveFunctions.divideLong.apply(8L)).apply(2L);
+
+        Assert.assertEquals(MESSAGE_MULT_RESULT, 2, result);
+
+        // step by step
+
+        result = PrimitiveFunctions.exponentiationLong.apply(2L);
+        result = PrimitiveFunctions.divideLong.apply(8L).apply(result);
+
+        Assert.assertEquals(MESSAGE_MULT_RESULT, 2, result);
+    }
+
+    @Test
     public void testComposeLong3() {
         // compose format
         long result = PrimitiveFunctions.exponentiationLong.compose(
@@ -114,6 +135,26 @@ public class PrimitiveFunctionsTest {
         Assert.assertEquals(MESSAGE_MULT_RESULT, 4, result);
     }
 
+    @Test
+    public void testAndThenLong3() {
+        // compose format
+        Long result = PrimitiveFunctions.exponentiationLong.andThen(
+                PrimitiveFunctions.sub5Long.andThen(
+                        PrimitiveFunctions.add1Long
+                )
+        ).apply(2L);
+
+        Assert.assertEquals(MESSAGE_MULT_RESULT, 0, result.longValue());
+
+        // step by step
+
+        result = PrimitiveFunctions.exponentiationLong.apply(2L);
+        result = PrimitiveFunctions.sub5Long.apply(result);
+        result = PrimitiveFunctions.add1Long.apply(result);
+
+        Assert.assertEquals(MESSAGE_MULT_RESULT, 0, result.longValue());
+    }
+
 
     @Test
     public void testComposeChain() {
@@ -126,4 +167,17 @@ public class PrimitiveFunctionsTest {
 
         Assert.assertEquals(MESSAGE_MULT_RESULT, 4, result.longValue());
     }
+
+    @Test
+    public void testAndThenChain() {
+        // compose format
+
+        Long result = PrimitiveFunctions.andThenChain(2L,
+                PrimitiveFunctions.exponentiationLong,
+                PrimitiveFunctions.add1Long,
+                PrimitiveFunctions.sub5Long);
+
+        Assert.assertEquals(MESSAGE_MULT_RESULT, 0, result.longValue());
+    }
+
 }
