@@ -2,6 +2,7 @@ package com.example.java8.consumer;
 
 import java.util.function.Consumer;
 
+import com.example.java8.AppUtils;
 import com.example.java8.exception.SampleException;
 import com.example.java8.model.ResultStatus;
 import com.example.java8.model.SampleContext;
@@ -15,9 +16,6 @@ public class CustomConsumers {
         // for sonar
     }
 
-
-    private static final String LOG_TEXT = "{} executed";
-
     /**
      *
      */
@@ -26,97 +24,79 @@ public class CustomConsumers {
     /**
      *
      */
-    private static Consumer<SampleContext> setOrderId = sampleContext -> {
-        log.info(LOG_TEXT, "setOrderId");
-        sampleContext.setId(sampleContext.getId() + 1);
-    };
-
-    /**
-     *
-     */
-    private static Consumer<SampleContext> checkStatus = sampleContext -> {
-        log.info(LOG_TEXT, "checkStatus");
-        if (ResultStatus.FAIL.equals(sampleContext.getResultStatus())) {
-            throw new SampleException("Status Failed");
-        }
-    };
-
-    /**
-     *
-     */
-    public static Consumer<SampleContext> before = sampleContext -> {
+    public static final Consumer<SampleContext> before = sampleContext -> {
         seperator.accept(sampleContext);
-        setOrderId.accept(sampleContext);
+        SampleContextConsumers.increaseOrderId.accept(sampleContext);
     };
 
     /**
      *
      */
-    public static Consumer<SampleContext> after = sampleContext -> checkStatus.accept(sampleContext);
+    public static final Consumer<SampleContext> after = SampleContextConsumers.checkStatus;
 
-    /**
-     *
-     */
-    static Consumer<SampleContext> execute(Consumer<SampleContext> consumer) {
-        return before.andThen(consumer).andThen(after);
-    }
-
-    public static Consumer<SampleContext> consumer1 = sampleContext -> {
-        log.info(LOG_TEXT, "consumer1");
+    public static final Consumer<SampleContext> consumer1 = sampleContext -> {
+        log.info(AppUtils.LOG_METHOD_EXECUTED, "consumer1");
         sampleContext.setResultStatus(ResultStatus.SUCCESS);
     };
 
     /**
      *
      */
-    public static Consumer<SampleContext> consumer2 = sampleContext -> {
-        log.info(LOG_TEXT, "consumer2");
+    public static final Consumer<SampleContext> consumer2 = sampleContext -> {
+        log.info(AppUtils.LOG_METHOD_EXECUTED, "consumer2");
         sampleContext.setResultStatus(ResultStatus.SUCCESS);
     };
 
     /**
      *
      */
-    public static Consumer<SampleContext> consumer3 = sampleContext -> {
-        log.info(LOG_TEXT, "consumer2");
+    public static final Consumer<SampleContext> consumer3 = sampleContext -> {
+        log.info(AppUtils.LOG_METHOD_EXECUTED, "consumer2");
         sampleContext.setResultStatus(ResultStatus.SUCCESS);
     };
 
     /**
      *
      */
-    public static Consumer<SampleContext> consumer4 = sampleContext -> {
-        log.info(LOG_TEXT, "consumer4");
+    public static final Consumer<SampleContext> consumer4 = sampleContext -> {
+        log.info(AppUtils.LOG_METHOD_EXECUTED, "consumer4");
         sampleContext.setResultStatus(ResultStatus.SUCCESS);
     };
 
     /**
      *
      */
-    public static Consumer<SampleContext> consumer5 = CustomConsumers::execute5;
+    public static final Consumer<SampleContext> consumer5 = CustomConsumers::execute5;
 
     /**
      *
      */
     private static void execute5(SampleContext sampleContext) {
-        log.info(LOG_TEXT, "consumer5");
+        log.info(AppUtils.LOG_METHOD_EXECUTED, "consumer5");
         sampleContext.setResultStatus(ResultStatus.SUCCESS);
     }
 
     /**
      *
      */
-    public static Consumer<SampleContext> consumerSetFail = sampleContext -> {
-        log.info(LOG_TEXT, "consumerSetFail");
+    public static final Consumer<SampleContext> consumerSetFail = sampleContext -> {
+        log.info(AppUtils.LOG_METHOD_EXECUTED, "consumerSetFail");
         sampleContext.setResultStatus(ResultStatus.FAIL);
     };
 
     /**
      *
      */
-    public static Consumer<SampleContext> consumerThrowException = sampleContext -> {
-        log.info(LOG_TEXT, "consumerThrowException");
+    public static final Consumer<SampleContext> consumerThrowException = sampleContext -> {
+        log.info(AppUtils.LOG_METHOD_EXECUTED, "consumerThrowException");
         throw new SampleException("Dummy Exception");
     };
 
+
+    /**
+     *
+     */
+    public static final Consumer<SampleContext> execute(Consumer<SampleContext> consumer) {
+        return before.andThen(consumer).andThen(after);
+    }
 }

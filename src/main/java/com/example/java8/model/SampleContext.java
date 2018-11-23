@@ -7,7 +7,7 @@ import lombok.Data;
 @Builder
 public class SampleContext {
     private String name;
-    private long id;
-    private Long previousFuctionId;
+    private long order;
+    private Long previousOrderId;
     private ResultStatus resultStatus;
 }

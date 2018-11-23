@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.function.Function;
 
 import com.example.java8.consumer.CustomConsumers;
-import com.example.java8.model.ResultStatus;
 import com.example.java8.model.SampleContext;
 
 @Slf4j

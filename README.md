@@ -17,7 +17,7 @@ gradle clean test --info
 - [x] FunctionalInterfaces
     - [x] Function
     - [x] Consumer
-    - [ ] Predicate
+    - [x] Predicate
     - [ ] Supplier
     - [ ] BiFunction
     - [ ] BiConsumer
