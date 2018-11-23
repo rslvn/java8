@@ -1,5 +1,6 @@
 package com.example.java8.predicate;
 
+import java.util.Objects;
 import java.util.function.Predicate;
 
 import com.example.java8.AppUtils;
@@ -15,27 +16,26 @@ public class CustomPredicates {
 
     public static final Predicate<Number> isZero = number -> {
         log.info(AppUtils.LOG_METHOD_EXECUTED, "isPositive");
-        return CustomPredicates.isNonNull.test(number) && number.longValue() == 0;
+        return  isNonNull().test(number) && number.longValue() == 0;
     };
 
     public static final Predicate<Number> isPositive = number -> {
         log.info(AppUtils.LOG_METHOD_EXECUTED, "isPositive");
-        return CustomPredicates.isNonNull.test(number) && number.longValue() > 0;
+        return isNonNull().test(number) && number.longValue() > 0;
     };
 
     public static final Predicate<Number> isNegative = number -> {
         log.info(AppUtils.LOG_METHOD_EXECUTED, "isNegative");
-        return CustomPredicates.isNonNull.test(number) && number.longValue() < 0;
+        return isNonNull().test(number) && number.longValue() < 0;
     };
 
-    public static final Predicate<? super Object> isNull = obj -> {
+    public static <T> Predicate<T> isNull() {
         log.info(AppUtils.LOG_METHOD_EXECUTED, "isNull");
-        return obj == null;
-    };
+        return Objects::isNull;
+    }
 
-    public static final Predicate<? super Object> isNonNull = obj -> {
+    public static <T> Predicate<T> isNonNull() {
         log.info(AppUtils.LOG_METHOD_EXECUTED, "isNonNull");
-        return obj != null;
-    };
-
+        return Objects::nonNull;
+    }
 }

@@ -43,25 +43,25 @@ public class CustomPredicatesTest {
 
     @Test
     public void testNull() {
-        boolean result = CustomPredicates.isNull.test(null);
+        boolean result = CustomPredicates.isNull().test(null);
         Assert.assertTrue("Not null", result);
     }
 
     @Test
     public void testNullFalse() {
-        boolean result = CustomPredicates.isNull.test(new Object());
+        boolean result = CustomPredicates.isNull().test(new Object());
         Assert.assertFalse("The object is null", result);
     }
 
     @Test
     public void testNonNull() {
-        boolean result = CustomPredicates.isNonNull.test(new Object());
+        boolean result = CustomPredicates.isNonNull().test(new Object());
         Assert.assertTrue("The object is null", result);
     }
 
     @Test
     public void testNonNullFalse() {
-        boolean result = CustomPredicates.isNonNull.test(null);
+        boolean result = CustomPredicates.isNonNull().test(null);
         Assert.assertFalse("not null", result);
     }
 }

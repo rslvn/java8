@@ -17,7 +17,7 @@ public class SampleContextPredicates {
         return sampleContext -> ResultStatus.FAIL.equals(sampleContext.getResultStatus());
     }
 
-    public static Predicate<SampleContext> nameNotNull = CustomPredicates.isNonNull::test;
+    public static Predicate<SampleContext> nameNotNull = CustomPredicates.isNonNull();
 
     public static Predicate<SampleContext> positiveOrder() {
         return sampleContext -> CustomPredicates.isPositive.test(sampleContext.getOrder());
