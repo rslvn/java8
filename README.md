@@ -18,7 +18,7 @@ gradle clean test --info
     - [x] Function
     - [x] Consumer
     - [x] Predicate
-    - [ ] Supplier
+    - [x] Supplier
     - [ ] BiFunction
     - [ ] BiConsumer
     - [ ] BiPredicate
