@@ -1,8 +1,8 @@
 package com.example.java8;
 
-public class AppUtils {
+public class CommonUtils {
 
-    private AppUtils() {
+    private CommonUtils() {
         // for sonar
     }
 
