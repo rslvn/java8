@@ -34,7 +34,7 @@ public class CustomSuppliersTest {
 
         Supplier<List<Integer>> intSuplier = CustomSuppliers.listSuplier(integers);
 
-        Assert.assertNotEquals("Streams are same",
+        Assert.assertEquals("Streams are not same",
                 intSuplier.get(),
                 intSuplier.get());
     }
